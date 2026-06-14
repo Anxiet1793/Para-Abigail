@@ -1,0 +1,236 @@
+Tengo un proyecto de Stitch AI llamado `stitch_dreamy_bunny_date_invite`.
+
+Estructura relevante del proyecto:
+
+* `una_invitaci_n_m_gica/code.html`
+  Este es el archivo principal de la página. Ya tiene diseño, fondo WebGL, HTML, CSS y JavaScript básico.
+
+* Imágenes locales disponibles:
+
+  * `../a_modern_aesthetic_illustration_of_a_shy_bunny_holding_a_small_bouquet_of/screen.png`
+  * `../a_modern_aesthetic_illustration_of_two_cute_bunnies_watching_a_movie_together/screen.png`
+  * `../a_modern_aesthetic_illustration_of_a_cute_bunny_with_a_little_picnic_basket./screen.png`
+  * `../a_modern_aesthetic_illustration_of_two_cute_bunnies_sitting_together_drinking/screen.png`
+  * `../a_modern_aesthetic_illustration_of_a_happy_dancing_bunny_celebrating._soft/screen.png`
+
+Quiero que trabajes específicamente sobre:
+
+`una_invitaci_n_m_gica/code.html`
+
+No crees un proyecto nuevo. No uses React, Vue, Next, Vite ni npm. Todo debe quedar funcionando en ese mismo `code.html`, abriéndolo directamente en el navegador.
+
+Objetivo:
+Mejorar y terminar esta página para que sea una web moderna, bonita y funcional para pedir una primera cita con temática de conejitos. No debe parecer San Valentín.
+
+Cosas importantes que debes mantener:
+
+* Mantén el fondo WebGL actual.
+* Mantén el estilo visual Tender Spark: glassmorphism, colores pastel, blush pink, lavender, cream, peach, warm white.
+* Mantén la estructura general de la página porque ya se ve bonita.
+* Mantén Tailwind por CDN como está.
+* No rompas el shader.
+* No rompas el responsive.
+
+Problemas actuales que debes corregir:
+
+1. El código JavaScript está metido dentro de un `DOMContentLoaded` con funciones internas. Quiero que lo ordenes con funciones claras.
+2. El botón de WhatsApp todavía no tiene funcionalidad real.
+3. Las cards de planes no guardan el plan elegido en una variable clara.
+4. Las imágenes están usando URLs externas de Google. Cámbialas por las imágenes locales del ZIP usando rutas relativas correctas.
+5. El botón “Mmm… aún no sé” puede moverse, pero debe hacerlo sin romper el layout, especialmente en celular.
+6. La página tiene navegación y textos como “Nuestra Historia” que pueden sentirse innecesarios. Puedes simplificar si mejora la experiencia.
+7. Faltan comentarios claros para poder cambiar número de WhatsApp, textos e imágenes luego.
+
+Requisitos funcionales obligatorios:
+
+Crea estas constantes globales al inicio del script principal:
+
+```js
+const WHATSAPP_NUMBER = "51999999999"; // Cambiar por mi número real
+let selectedPlan = null;
+
+const BUNNY_IMAGES = {
+  hero: "../a_modern_aesthetic_illustration_of_a_shy_bunny_holding_a_small_bouquet_of/screen.png",
+  coffee: "../a_modern_aesthetic_illustration_of_two_cute_bunnies_sitting_together_drinking/screen.png",
+  food: "../a_modern_aesthetic_illustration_of_a_cute_bunny_with_a_little_picnic_basket./screen.png",
+  walk: "../a_modern_aesthetic_illustration_of_two_cute_bunnies_watching_a_movie_together/screen.png",
+  celebration: "../a_modern_aesthetic_illustration_of_a_happy_dancing_bunny_celebrating._soft/screen.png"
+};
+
+const DATE_PLANS = [
+  {
+    id: "coffee",
+    title: "Café tranquilo ☕",
+    description: "Algo suave para conversar bonito, tomar algo rico y reírnos sin presión.",
+    tag: "Casual",
+    icon: "local_cafe",
+    image: BUNNY_IMAGES.coffee
+  },
+  {
+    id: "food",
+    title: "Comida rica 🍰",
+    description: "Ir por algo rico, compartir un postre y pasar un momento bonito.",
+    tag: "Delicioso",
+    icon: "restaurant",
+    image: BUNNY_IMAGES.food
+  },
+  {
+    id: "walk",
+    title: "Paseo bonito 🌙",
+    description: "Caminar, conversar y ver a dónde nos lleva la noche.",
+    tag: "Relajado",
+    icon: "park",
+    image: BUNNY_IMAGES.walk
+  }
+];
+
+const BUNNY_MESSAGES = [
+  "El conejito dice que lo pienses otra vez 🐇",
+  "Prometo que habrá algo rico de comer",
+  "No presión, pero el conejo ya se emocionó",
+  "Última oportunidad antes de que el conejo se ponga dramático",
+  "El conejo está negociando con el destino"
+];
+```
+
+Funciones obligatorias:
+Reorganiza el JavaScript para que tenga como mínimo estas funciones:
+
+```js
+function initApp() {}
+function cacheDomElements() {}
+function bindEvents() {}
+function renderPlans() {}
+function handleYesClick() {}
+function handleMaybeClick(event) {}
+function moveMaybeButton() {}
+function showBunnyMessage(message) {}
+function showAcceptedState() {}
+function createPawPrints() {}
+function createConfetti() {}
+function selectPlan(planId) {}
+function updateSelectedPlanUI() {}
+function showFinalAction() {}
+function buildWhatsAppUrl() {}
+function openWhatsAppResponse() {}
+function resetExperience() {}
+```
+
+Comportamiento deseado:
+
+1. Al cargar la página:
+
+* Ejecutar `initApp()`.
+* Renderizar las cards de planes usando `DATE_PLANS`, no escribirlas duplicadas manualmente.
+* Crear las huellitas flotantes.
+* Asignar imágenes locales a hero, celebration y planes.
+
+2. Botón “Sí, acepto 🐰”:
+   Al hacer click:
+
+* Cambiar visualmente el botón a un estado aceptado.
+* Ocultar o desactivar el botón “Mmm… aún no sé”.
+* Mostrar la sección de celebración.
+* Mostrar confetti.
+* Mostrar la sección de planes.
+* Hacer scroll suave hacia la celebración o planes.
+
+Texto de celebración:
+“Sabía que los conejitos tenían fe en nosotros 🐰✨”
+
+Subtexto:
+“Ahora solo falta escoger el plan.”
+
+3. Botón “Mmm… aún no sé”:
+
+* En desktop, al hacer hover o click debe moverse de forma juguetona dentro de un rango controlado.
+* En mobile, no debe escapar demasiado ni salirse de pantalla. Mejor que solo cambie el texto y muestre un mensaje.
+* Debe llamar a `showBunnyMessage(message)`.
+* El mensaje debe aparecer en una pequeña burbuja/card temporal cerca de los botones.
+* No debe sentirse manipulador ni molesto.
+
+4. Cards de planes:
+
+* Deben generarse con `renderPlans()`.
+* Al hacer click en una card, debe llamar a `selectPlan(planId)`.
+* Debe guardar el objeto elegido en `selectedPlan`.
+* La card seleccionada debe verse claramente marcada:
+
+  * borde más fuerte
+  * sombra suave
+  * pequeño check o etiqueta “Elegido”
+* Solo puede haber una card seleccionada a la vez.
+
+5. Botón final de WhatsApp:
+   El botón “Enviar respuesta por WhatsApp” debe:
+
+* Estar oculto hasta que se elija un plan.
+* Al presionarlo, llamar a `openWhatsAppResponse()`.
+* `buildWhatsAppUrl()` debe crear una URL así:
+
+```js
+https://wa.me/WHATSAPP_NUMBER?text=MENSAJE_ENCODEADO
+```
+
+Mensaje sugerido:
+“Acepto la primera cita 🐰✨ Plan elegido: [TÍTULO_DEL_PLAN]”
+
+Usa `encodeURIComponent`.
+
+6. Reset:
+   Agrega un botón pequeño opcional:
+   “Volver a elegir”
+   Debe llamar a `resetExperience()` o permitir reiniciar la selección de plan sin recargar la página.
+
+Requisitos visuales:
+
+* Mantén el look premium.
+* Que no parezca San Valentín.
+* No llenes todo de corazones.
+* Prioriza conejitos, brillos suaves, huellitas, nubes y un mood cálido.
+* Asegura que en mobile se vea bien.
+* Evita overflow horizontal.
+* El contenido debe estar por encima del canvas con `z-index`.
+* El canvas WebGL debe seguir ocupando todo el fondo.
+* Las imágenes locales deben tener `alt` descriptivo.
+
+Textos finales que quiero usar:
+
+Título:
+“Tengo una pregunta importante para ti…”
+
+Subtítulo:
+“No es nada raro, solo una pequeña invitación con conejitos de por medio.”
+
+Pregunta:
+“¿Te gustaría salir conmigo a una primera cita?”
+
+Texto de apoyo:
+“Prometo una cita tranquila, bonita, con algo rico para tomar o comer, cero presión y muchas ganas de verte sonreír.”
+
+Mensaje final:
+“Entonces queda pendiente nuestra primera cita. Yo invito los nervios, tú la sonrisa.”
+
+Botón final:
+“Enviar respuesta por WhatsApp”
+
+Validación antes de terminar:
+
+* Revisa que no haya errores de JavaScript.
+* Revisa que todos los botones funcionen.
+* Revisa que el botón de WhatsApp abra el link correcto.
+* Revisa que el plan elegido se incluya en el mensaje.
+* Revisa que las imágenes locales carguen correctamente.
+* Revisa que no dependamos de URLs externas para los conejitos.
+* Revisa que la página funcione abriendo `una_invitaci_n_m_gica/code.html` directamente.
+* Devuélveme el archivo `code.html` completo ya modificado.
+
+Ahora pule la experiencia visual y emocional sin cambiar la estructura principal:
+
+* Haz que el mensaje del conejito aparezca con animación suave.
+* Agrega una animación bonita cuando se selecciona un plan.
+* Agrega un pequeño check o badge “Elegido” sobre la card seleccionada.
+* Haz que el botón de WhatsApp tenga un micro-hover premium.
+* Mejora el espaciado en mobile.
+* Elimina cualquier cosa que se sienta genérica, como navegación innecesaria o links sin función.
+* Mantén todo tierno, moderno y elegante, no exageradamente cursi.

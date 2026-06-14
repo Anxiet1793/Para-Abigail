@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tender Spark | Una invitación especial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "primary": "#7b5455",
+                "surface-tint": "#7b5455",
+                "secondary": "#5c5d6e",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#1b1c1a",
+                "inverse-surface": "#30312e",
+                "on-primary-fixed": "#2f1314",
+                "on-primary-fixed-variant": "#613d3e",
+                "inverse-on-surface": "#f2f0ed",
+                "on-tertiary-fixed-variant": "#5a422a",
+                "primary-fixed": "#ffdad9",
+                "inverse-primary": "#ecbaba",
+                "background": "#fbf9f5",
+                "secondary-fixed-dim": "#c5c5d8",
+                "tertiary-container": "#ecc8a8",
+                "error": "#ba1a1a",
+                "tertiary-fixed": "#ffdcbe",
+                "on-tertiary-fixed": "#2a1704",
+                "primary-fixed-dim": "#ecbaba",
+                "on-secondary-fixed": "#191b29",
+                "surface-bright": "#fbf9f5",
+                "outline-variant": "#d4c2c2",
+                "on-surface-variant": "#504444",
+                "surface": "#fbf9f5",
+                "surface-container-high": "#eae8e4",
+                "surface-container-highest": "#e4e2de",
+                "on-tertiary": "#ffffff",
+                "tertiary": "#74593f",
+                "on-secondary": "#ffffff",
+                "error-container": "#ffdad6",
+                "primary-container": "#f4c2c2",
+                "on-error-container": "#93000a",
+                "surface-dim": "#dbdad6",
+                "surface-container-low": "#f5f3ef",
+                "surface-variant": "#e4e2de",
+                "secondary-container": "#e1e1f5",
+                "on-error": "#ffffff",
+                "surface-container": "#efeeea",
+                "on-secondary-fixed-variant": "#444655",
+                "on-secondary-container": "#626374",
+                "outline": "#827473",
+                "on-primary": "#ffffff",
+                "secondary-fixed": "#e1e1f5",
+                "on-surface": "#1b1c1a",
+                "tertiary-fixed-dim": "#e3c0a0",
+                "on-tertiary-container": "#6d5239",
+                "on-primary-container": "#734e4e"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-desktop": "64px",
+                "gutter": "24px",
+                "unit": "8px",
+                "margin-mobile": "20px",
+                "container-max": "1200px"
+        },
+        "fontFamily": {
+                "headline-lg-mobile": [
+                        "Playfair Display"
+                ],
+                "label-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-xl": [
+                        "Playfair Display"
+                ],
+                "body-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg": [
+                        "Playfair Display"
+                ]
+        },
+        "fontSize": {
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "1.4",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #fbf9f5;
+            color: #1b1c1a;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(244, 194, 194, 0.3);
+        }
+        
+        .glass-button {
+            background: linear-gradient(135deg, rgba(244, 194, 194, 0.9) 0%, rgba(255, 220, 190, 0.9) 100%);
+            box-shadow: 0 4px 15px 0 rgba(244, 194, 194, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .glass-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px 0 rgba(244, 194, 194, 0.6);
+        }
+
+        .glass-button-secondary {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(225, 225, 245, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-button-secondary:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px 0 rgba(244, 194, 194, 0.4);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .selected-card {
+            border: 2px solid #f4c2c2;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 30px 0 rgba(244, 194, 194, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .plan-card {
+            position: relative;
+        }
+
+        .plan-card:focus-visible,
+        button:focus-visible {
+            outline: 3px solid rgba(123, 84, 85, 0.45);
+            outline-offset: 4px;
+        }
+
+        .selected-card .selected-badge {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .selected-badge {
+            opacity: 0;
+            transform: translateY(-6px) scale(0.9);
+            transition: all 0.25s ease;
+        }
+
+        .sparkle {
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(15deg); }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5) translateY(50px); }
+            70% { opacity: 1; transform: scale(1.05) translateY(-10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #maybe-btn {
+            position: relative;
+            z-index: 20;
+            will-change: transform;
+        }
+
+        #choice-buttons {
+            min-height: 64px;
+        }
+
+        #bunny-message {
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        #bunny-message.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .paw-print {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(244, 194, 194, 0.3);
+            pointer-events: none;
+            animation: float-up 10s linear infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .confetti-piece {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        @media (max-width: 767px) {
+            #choice-buttons {
+                min-height: auto;
+            }
+
+            #maybe-btn {
+                transform: none !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .sparkle,
+            .paw-print,
+            .bounce-in,
+            .fade-in-up {
+                animation: none !important;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col font-body-md text-body-md">
+<!-- Shader Background -->
+<!-- STITCH_SHADER_START:ANIMATION_10 class="fixed inset-0 w-full h-full z-0 pointer-events-none opacity-60" -->
+<div class="fixed inset-0 w-full h-full z-0 pointer-events-none opacity-60" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_10" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_10');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+// Soft noise function
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 p = (uv - 0.5) * 2.0;
+    p.x *= u_resolution.x / u_resolution.y;
+
+    // Premium Dreamy Palette
+    vec3 cream = vec3(0.99, 0.98, 0.96);
+    vec3 blush = vec3(0.97, 0.89, 0.89);
+    vec3 lavender = vec3(0.94, 0.92, 0.97);
+    vec3 peach = vec3(0.98, 0.94, 0.90);
+    
+    // Smooth flowing gradients
+    float t = u_time * 0.3;
+    vec3 color = mix(cream, blush, 0.5 + 0.5 * sin(t + uv.x * 2.0));
+    color = mix(color, lavender, 0.3 * cos(t * 1.1 + uv.y * 1.5));
+    color = mix(color, peach, 0.2 * sin(t * 0.7 + length(uv - 0.5) * 3.0));
+
+    // Subtle floating clouds/soft spots
+    float clouds = 0.0;
+    for(int i=0; i<3; i++) {
+        float fi = float(i);
+        vec2 offset = vec2(sin(t*0.2 + fi), cos(t*0.3 + fi));
+        clouds += 0.05 / length(uv - 0.5 - offset * 0.3);
+    }
+    color += clouds * 0.1;
+
+    // Elegant Twinkling Stars
+    float stars = 0.0;
+    vec2 starUV = uv * 20.0;
+    vec2 ipos = floor(starUV);
+    vec2 fpos = fract(starUV);
+    float rnd = noise(ipos);
+    if (rnd > 0.97) {
+        float twinkle = 0.5 + 0.5 * sin(u_time * 2.0 + rnd * 6.28);
+        float size = 0.1 * rnd;
+        float dist = length(fpos - 0.5);
+        stars = smoothstep(size, 0.0, dist) * twinkle;
+    }
+    
+    color = mix(color, vec3(1.0), stars * 0.6);
+
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_10 -->
+<!-- Floating Paw Prints Container -->
+<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="paw-prints-container"></div>
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-white/40 dark:bg-surface/10 backdrop-blur-xl border-b border-white/20 shadow-[0_8px_32px_0_rgba(244,194,194,0.3)] transition-all duration-300 ease-in-out hidden md:flex">
+<div class="w-full max-w-container-max mx-auto flex justify-between items-center px-margin-desktop py-4">
+<div class="font-headline-lg text-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight">
+                Tender Spark
+            </div>
+<span class="text-on-surface-variant font-label-md text-label-md">Una invitación especial</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex-grow flex flex-col items-center w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-40 pb-32 max-w-container-max mx-auto space-y-24 md:space-y-32">
+<!-- Hero Section -->
+<section class="w-full flex flex-col items-center text-center fade-in-up" style="animation-delay: 0.1s;">
+<div class="relative mb-12">
+<img alt="Conejito tímido sosteniendo un pequeño ramo de flores" class="w-48 h-48 md:w-64 md:h-64 object-cover rounded-full shadow-[0_15px_40px_0_rgba(244,194,194,0.4)] border-4 border-white/60" id="hero-image" src="../a_modern_aesthetic_illustration_of_a_shy_bunny_holding_a_small_bouquet_of/screen.png"/>
+<span class="material-symbols-outlined text-primary-container absolute -top-4 -right-4 text-4xl sparkle" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary mb-6 max-w-2xl">
+                Tengo una pregunta importante para ti…
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">
+                No es nada raro, solo una pequeña invitación con conejitos de por medio.
+            </p>
+</section>
+<!-- The Question Card -->
+<section class="w-full max-w-xl fade-in-up" id="question-section" style="animation-delay: 0.3s;">
+<div class="glass-panel rounded-[24px] p-8 md:p-12 text-center relative overflow-hidden">
+<!-- Decorative elements -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary-container via-white to-primary-container opacity-50"></div>
+<span class="material-symbols-outlined absolute top-6 left-6 text-tertiary-fixed text-2xl opacity-60 sparkle">auto_awesome</span>
+<span class="material-symbols-outlined absolute bottom-6 right-6 text-secondary-fixed-dim text-2xl opacity-60 sparkle">auto_awesome</span>
+<h2 class="font-headline-lg text-headline-lg md:text-headline-xl text-primary mb-12">
+                    ¿Te gustaría salir conmigo a una primera cita?
+                </h2>
+<p class="font-body-md text-on-surface-variant max-w-lg mx-auto mb-10">
+                    Prometo una cita tranquila, bonita, con algo rico para tomar o comer, cero presión y muchas ganas de verte sonreír.
+                </p>
+<div class="flex flex-col md:flex-row items-center justify-center gap-6 relative" id="choice-buttons">
+<button class="glass-button text-on-primary-container font-label-md text-label-md px-8 py-4 rounded-full w-full md:w-auto flex items-center justify-center gap-2" id="yes-btn">
+                        Sí, acepto <span class="text-xl">🐰</span>
+</button>
+<button class="glass-button-secondary text-on-surface-variant font-label-md text-label-md px-8 py-4 rounded-full w-full md:w-auto transition-all duration-200 ease-in-out" id="maybe-btn">
+                        Mmm… aún no sé
+                    </button>
+</div>
+<div aria-live="polite" class="mt-6 mx-auto max-w-md rounded-2xl border border-white/70 bg-white/60 px-5 py-3 text-sm text-on-surface-variant opacity-0 -translate-y-2 pointer-events-none shadow-[0_8px_24px_rgba(244,194,194,0.25)]" id="bunny-message" role="status"></div>
+</div>
+</section>
+<!-- Accepted State (Hidden initially) -->
+<section class="w-full max-w-2xl hidden opacity-0 flex-col items-center text-center space-y-10" id="celebration-section">
+<div class="relative w-full aspect-[4/3] max-w-md mx-auto rounded-[32px] overflow-hidden glass-panel p-2">
+<img alt="Conejito feliz bailando para celebrar la invitación" class="w-full h-full object-cover rounded-[24px]" id="celebration-image" src="../a_modern_aesthetic_illustration_of_a_happy_dancing_bunny_celebrating._soft/screen.png"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none" id="confetti-container"></div>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary">
+                Sabía que los conejitos tenían fe en nosotros 🐰✨
+            </h3>
+<div class="w-24 h-1 bg-primary-container rounded-full opacity-50 my-6"></div>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
+                Ahora solo falta escoger el plan.
+            </p>
+</section>
+<!-- Date Plans (Hidden initially) -->
+<section class="w-full max-w-4xl hidden opacity-0 flex-col space-y-16" id="plans-section">
+<div aria-label="Opciones para la primera cita" class="grid grid-cols-1 md:grid-cols-3 gap-10" id="plans-grid"></div>
+<!-- Final Action (Shows after picking a plan) -->
+<div class="hidden opacity-0 flex-col items-center text-center mt-16 bg-white/50 backdrop-blur-md p-10 rounded-3xl border border-white/80 shadow-lg" id="final-action">
+<p class="font-headline-lg text-[28px] text-primary mb-3">Entonces queda pendiente nuestra primera cita.</p>
+<p class="font-body-md text-on-surface-variant mb-8">Yo invito los nervios, tú la sonrisa.</p>
+<button class="glass-button text-on-primary-container font-label-md text-label-md px-10 py-4 rounded-full flex items-center gap-3" id="whatsapp-btn" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                    Enviar respuesta por WhatsApp
+                </button>
+<button class="mt-5 text-sm font-semibold text-on-surface-variant underline decoration-primary-container decoration-2 underline-offset-4 hover:text-primary transition-colors" id="reset-btn" type="button">
+                    Volver a elegir
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-low dark:bg-surface-container-lowest border-t border-outline-variant mt-auto relative z-10">
+<div class="flex flex-col items-center gap-6 max-w-container-max mx-auto px-margin-desktop text-center">
+<div class="font-headline-lg text-headline-lg text-primary mb-2">Tender Spark</div>
+<p class="font-body-md text-sm text-secondary dark:text-secondary-fixed-dim">
+                Una pequeña invitación hecha con calma, brillos suaves y conejitos.
+            </p>
+</div>
+</footer>
+<!-- Interaction Logic -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const yesBtn = document.getElementById('yes-btn');
+            const maybeBtn = document.getElementById('maybe-btn');
+            const questionSection = document.getElementById('question-section');
+            const celebrationSection = document.getElementById('celebration-section');
+            const plansSection = document.getElementById('plans-section');
+            const planCards = document.querySelectorAll('.plan-card');
+            const finalAction = document.getElementById('final-action');
+            const confettiContainer = document.getElementById('confetti-container');
+            const pawPrintsContainer = document.getElementById('paw-prints-container');
+
+            // Generate floating paw prints
+            function createPawPrints() {
+                const pawIcons = ['pets', 'cruelty_free'];
+                for (let i = 0; i < 15; i++) {
+                    const paw = document.createElement('span');
+                    paw.classList.add('material-symbols-outlined', 'paw-print');
+                    paw.innerText = pawIcons[Math.floor(Math.random() * pawIcons.length)];
+                    paw.style.left = `${Math.random() * 100}vw`;
+                    paw.style.animationDuration = `${10 + Math.random() * 15}s`;
+                    paw.style.animationDelay = `${Math.random() * 10}s`;
+                    paw.style.fontSize = `${16 + Math.random() * 24}px`;
+                    pawPrintsContainer.appendChild(paw);
+                }
+            }
+            createPawPrints();
+
+            // Custom Confetti Function
+            function fireConfetti() {
+                const colors = ['#f4c2c2', '#ffdcbe', '#e1e1f5', '#ecc8a8'];
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'absolute';
+                    confetti.style.width = `${Math.random() * 10 + 5}px`;
+                    confetti.style.height = `${Math.random() * 10 + 5}px`;
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    confetti.style.left = '50%';
+                    confetti.style.top = '50%';
+                    confetti.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * velocity;
+                    const ty = Math.sin(angle) * velocity - 50;
+                    
+                    confetti.animate([
+                        { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+                        { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1) rotate(${Math.random() * 720}deg)`, opacity: 1, offset: 0.8 },
+                        { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty + 50}px)) scale(0) rotate(${Math.random() * 1080}deg)`, opacity: 0 }
+                    ], {
+                        duration: 1500 + Math.random() * 1000,
+                        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        fill: 'forwards'
+                    });
+                    
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+
+            // Playful "Maybe" button logic
+            const moveBtn = () => {
+                const maxX = 150;
+                const maxY = 100;
+                const randomX = Math.floor(Math.random() * maxX * 2) - maxX;
+                const randomY = Math.floor(Math.random() * maxY * 2) - maxY;
+                
+                maybeBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                
+                const playfulMessages = ['¿Segur@?', 'Piénsalo bien...', 'Casi casi', 'Atrápame', 'Di que sí mejor'];
+                maybeBtn.innerText = playfulMessages[Math.floor(Math.random() * playfulMessages.length)];
+            };
+
+            // Only move on desktop hover, on mobile move on click to avoid getting stuck
+            if (window.matchMedia("(min-width: 768px)").matches) {
+                maybeBtn.addEventListener('mouseover', moveBtn);
+            } else {
+                maybeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    moveBtn();
+                });
+            }
+
+            // Yes button logic
+            yesBtn.addEventListener('click', () => {
+                // Hide maybe button and disable yes
+                maybeBtn.style.display = 'none';
+                yesBtn.innerHTML = '¡Yei! <span class="material-symbols-outlined ml-2">auto_awesome</span>';
+                yesBtn.classList.add('bg-primary', 'text-white');
+                yesBtn.style.pointerEvents = 'none';
+                
+                // Show celebration
+                setTimeout(() => {
+                    celebrationSection.classList.remove('hidden');
+                    celebrationSection.classList.add('flex', 'bounce-in');
+                    fireConfetti();
+                    
+                    // Show plans shortly after
+                    setTimeout(() => {
+                        plansSection.classList.remove('hidden');
+                        plansSection.classList.add('flex', 'fade-in-up');
+                        
+                        // Scroll to celebration smoothly
+                        celebrationSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 800);
+                }, 400);
+            });
+
+            // Plan selection logic
+            planCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Remove selected from all
+                    planCards.forEach(c => c.classList.remove('selected-card'));
+                    // Add to clicked
+                    card.classList.add('selected-card');
+                    
+                    // Show final action
+                    finalAction.classList.remove('hidden');
+                    finalAction.classList.add('flex', 'bounce-in');
+                    
+                    setTimeout(() => {
+                        finalAction.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body></html>
