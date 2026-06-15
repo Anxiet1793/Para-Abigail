@@ -296,6 +296,38 @@
             pointer-events: none;
         }
 
+        .coin-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #ffdcbe, #f4c2c2);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(123, 84, 85, 0.18);
+            transform-style: preserve-3d;
+        }
+
+        .coin-icon.is-flipping {
+            animation: coinFlip 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        @keyframes coinFlip {
+            0% { transform: rotateY(0deg) translateY(0); }
+            45% { transform: rotateY(540deg) translateY(-14px) scale(1.15); }
+            100% { transform: rotateY(1080deg) translateY(0); }
+        }
+
+        #random-plan-result {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #random-plan-result.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
         @media (max-width: 767px) {
             #choice-buttons {
                 min-height: auto;
@@ -314,7 +346,8 @@
             .sparkle,
             .paw-print,
             .bounce-in,
-            .fade-in-up {
+            .fade-in-up,
+            .coin-icon.is-flipping {
                 animation: none !important;
             }
 
@@ -522,6 +555,30 @@ void main() {
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-6">
                 Ahora solo falta escoger el plan.
             </p>
+<div class="flex w-full max-w-lg flex-col items-center gap-5">
+<button class="glass-button flex items-center justify-center gap-3 rounded-full px-7 py-3 font-label-md text-label-md text-on-primary-container" id="random-plan-btn" type="button">
+<span aria-hidden="true" class="coin-icon" id="coin-icon">🪙</span>
+<span id="random-plan-btn-text">Lanza una moneda</span>
+</button>
+<div aria-live="polite" class="glass-panel hidden w-full translate-y-3 scale-95 rounded-3xl p-5 text-left opacity-0 md:p-6" id="random-plan-result">
+<div class="flex flex-col gap-5 sm:flex-row sm:items-center">
+<img alt="" class="h-28 w-full rounded-2xl object-cover sm:h-28 sm:w-28" id="random-plan-image" src=""/>
+<div class="min-w-0 flex-1">
+<p class="mb-1 text-xs font-semibold uppercase tracking-[0.14em] text-secondary" id="random-plan-label">La moneda eligió</p>
+<h4 class="font-headline-lg text-[24px] text-primary" id="random-plan-title"></h4>
+<p class="mt-2 text-sm text-on-surface-variant" id="random-plan-description"></p>
+</div>
+</div>
+<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end" id="random-plan-actions">
+<button class="glass-button rounded-full px-6 py-3 text-sm font-semibold text-on-primary-container" id="accept-random-plan-btn" type="button">
+                        Aceptar este plan
+                    </button>
+<button class="glass-button-secondary rounded-full px-6 py-3 text-sm font-semibold text-on-surface-variant" id="reject-random-plan-btn" type="button">
+                        No, prueba otro
+                    </button>
+</div>
+</div>
+</div>
 </section>
 <!-- Date Plans (Hidden initially) -->
 <section class="w-full max-w-4xl hidden opacity-0 flex-col space-y-16" id="plans-section">
@@ -595,6 +652,9 @@ const dom = {};
 let bunnyMessageIndex = 0;
 let bunnyMessageTimer = null;
 let hasAccepted = false;
+let proposedRandomPlan = null;
+let randomPlanTimer = null;
+const rejectedRandomPlanIds = new Set();
 
 function initApp() {
   cacheDomElements();
@@ -613,6 +673,17 @@ function cacheDomElements() {
   dom.celebrationSection = document.getElementById("celebration-section");
   dom.plansSection = document.getElementById("plans-section");
   dom.plansGrid = document.getElementById("plans-grid");
+  dom.randomPlanBtn = document.getElementById("random-plan-btn");
+  dom.randomPlanBtnText = document.getElementById("random-plan-btn-text");
+  dom.coinIcon = document.getElementById("coin-icon");
+  dom.randomPlanResult = document.getElementById("random-plan-result");
+  dom.randomPlanImage = document.getElementById("random-plan-image");
+  dom.randomPlanLabel = document.getElementById("random-plan-label");
+  dom.randomPlanTitle = document.getElementById("random-plan-title");
+  dom.randomPlanDescription = document.getElementById("random-plan-description");
+  dom.randomPlanActions = document.getElementById("random-plan-actions");
+  dom.acceptRandomPlanBtn = document.getElementById("accept-random-plan-btn");
+  dom.rejectRandomPlanBtn = document.getElementById("reject-random-plan-btn");
   dom.finalAction = document.getElementById("final-action");
   dom.whatsappBtn = document.getElementById("whatsapp-btn");
   dom.resetBtn = document.getElementById("reset-btn");
@@ -643,6 +714,9 @@ function bindEvents() {
       selectPlan(card.dataset.planId);
     }
   });
+  dom.randomPlanBtn.addEventListener("click", handleRandomPlanClick);
+  dom.acceptRandomPlanBtn.addEventListener("click", acceptRandomPlan);
+  dom.rejectRandomPlanBtn.addEventListener("click", rejectRandomPlan);
   dom.whatsappBtn.addEventListener("click", openWhatsAppResponse);
   dom.resetBtn.addEventListener("click", resetExperience);
   window.addEventListener("resize", () => {
@@ -683,6 +757,110 @@ function renderPlans() {
       </div>
     </article>
   `).join("");
+}
+
+function getAvailableRandomPlans() {
+  return DATE_PLANS.filter((plan) => !rejectedRandomPlanIds.has(plan.id));
+}
+
+function handleRandomPlanClick() {
+  if (getAvailableRandomPlans().length === 0) {
+    resetRandomOptions();
+    return;
+  }
+
+  window.clearTimeout(randomPlanTimer);
+  dom.randomPlanBtn.disabled = true;
+  dom.randomPlanBtnText.textContent = "La moneda está girando...";
+  dom.coinIcon.classList.remove("is-flipping");
+  void dom.coinIcon.offsetWidth;
+  dom.coinIcon.classList.add("is-flipping");
+  hideRandomPlanResult();
+
+  const animationDuration = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 50 : 750;
+  randomPlanTimer = window.setTimeout(() => {
+    const availablePlans = getAvailableRandomPlans();
+    const randomIndex = Math.floor(Math.random() * availablePlans.length);
+    proposedRandomPlan = availablePlans[randomIndex];
+    showRandomPlanResult(proposedRandomPlan);
+    dom.randomPlanBtn.disabled = false;
+    dom.randomPlanBtnText.textContent = "Lanzar otra vez";
+    dom.coinIcon.classList.remove("is-flipping");
+  }, animationDuration);
+}
+
+function showRandomPlanResult(plan) {
+  dom.randomPlanImage.classList.remove("hidden");
+  dom.randomPlanImage.src = plan.image;
+  dom.randomPlanImage.alt = `Plan propuesto al azar: ${plan.title}`;
+  dom.randomPlanLabel.textContent = "La moneda eligió";
+  dom.randomPlanTitle.textContent = plan.title;
+  dom.randomPlanDescription.textContent = plan.description;
+  dom.randomPlanActions.classList.remove("hidden");
+  dom.randomPlanResult.classList.remove("hidden");
+
+  requestAnimationFrame(() => {
+    dom.randomPlanResult.classList.add("is-visible");
+  });
+}
+
+function hideRandomPlanResult() {
+  dom.randomPlanResult.classList.remove("is-visible");
+  dom.randomPlanResult.classList.add("hidden");
+}
+
+function acceptRandomPlan() {
+  if (!proposedRandomPlan) {
+    return;
+  }
+
+  const acceptedPlanId = proposedRandomPlan.id;
+  proposedRandomPlan = null;
+  hideRandomPlanResult();
+  selectPlan(acceptedPlanId);
+}
+
+function rejectRandomPlan() {
+  if (!proposedRandomPlan) {
+    return;
+  }
+
+  rejectedRandomPlanIds.add(proposedRandomPlan.id);
+  proposedRandomPlan = null;
+  const remainingPlans = getAvailableRandomPlans();
+
+  if (remainingPlans.length === 0) {
+    showNoRandomPlansState();
+    return;
+  }
+
+  hideRandomPlanResult();
+  dom.randomPlanBtnText.textContent = `Lanza otra moneda (${remainingPlans.length} disponibles)`;
+  dom.randomPlanBtn.focus({ preventScroll: true });
+}
+
+function showNoRandomPlansState() {
+  dom.randomPlanImage.classList.add("hidden");
+  dom.randomPlanLabel.textContent = "Sin opciones pendientes";
+  dom.randomPlanTitle.textContent = "Ya descartaste todos los planes";
+  dom.randomPlanDescription.textContent = "Puedes reiniciar la moneda y volver a considerar las tres opciones.";
+  dom.randomPlanActions.classList.add("hidden");
+  dom.randomPlanResult.classList.remove("hidden");
+  dom.randomPlanResult.classList.add("is-visible");
+  dom.randomPlanBtnText.textContent = "Reiniciar opciones";
+}
+
+function resetRandomOptions() {
+  window.clearTimeout(randomPlanTimer);
+  rejectedRandomPlanIds.clear();
+  proposedRandomPlan = null;
+  dom.randomPlanBtn.disabled = false;
+  dom.randomPlanBtnText.textContent = "Lanza una moneda";
+  dom.coinIcon.classList.remove("is-flipping");
+  dom.randomPlanActions.classList.remove("hidden");
+  dom.randomPlanImage.classList.remove("hidden");
+  hideRandomPlanResult();
+  dom.randomPlanBtn.focus({ preventScroll: true });
 }
 
 function handleYesClick() {
